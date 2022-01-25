@@ -21,14 +21,14 @@ ActiveRecord::Schema.define(version: 2022_01_24_214311) do
   end
 
   create_table "distilleries", force: :cascade do |t|
-    t.string "distillery_name"
+    t.string "name"
     t.integer "year_established"
-    t.boolean "currently_open?"
+    t.boolean "currently_open"
     t.integer "region_id"
   end
 
   create_table "regions", force: :cascade do |t|
-    t.string "region_name"
+    t.string "name"
   end
 
 end
