@@ -1,5 +1,5 @@
 puts "🌱 Seeding with the water of the gods..."
-Region.create(name: "Cambeltown")
+Region.create(name: "Campbeltown")
 Region.create(name: "Highland")
 Region.create(name: "Islay")
 Region.create(name: "Lowland")
