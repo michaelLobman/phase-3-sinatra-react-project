@@ -11,9 +11,45 @@ class ApplicationController < Sinatra::Base
     Bottle.all.order(:aged_in_years).to_json(only: [:name, :aged_in_years])    
   end
 
-  get "/all_bottles_by_region" do
-    Bottle.all.to_json
+  get "/bottles/:id" do
+    bottle = Bottle.find(params[:id])
+    bottle.to_json(include: { distillery: { include: :region } } )
   end
+
+  get "/all_bottles_by_region" do
+    regions = Region.all
+    regions.to_json(only: [:name], include: { 
+      distilleries: { only: [:name], include: {
+      bottles: { only: [:name, :aged_in_years] }
+      } }
+    })
+  end
+
+  # get "/all_bottles_by_region" do
+  #   regions = Region.all
+
+  #   bottles_by_region = Region.all.each_with_object({}) do |region, hash|
+  #     distilleries = region.distilleries
+  #     hash[region.name] = distilleries.each_with_object({}) do |distillery, nested_hash|
+  #       nested_hash[distillery.name] = distillery.bottles.order(:aged_in_years).map{|bottle| bottle.name}
+  #     end
+  #   end
+
+  #   bottles_by_region.to_json
+
+  # end
+
+  # get "/all_bottles_by_region" do
+  #   regions = Region.all
+  #   for_json = regions.map do |region|
+  #     distilleries = region.distilleries
+  #     distilleries.map do |distillery|
+  #       hash["#{region}"]["#{distillery}"]
+  #       distillery.bottles.order(:aged_in_years).map{|bottle| bottle.name}
+  #     end
+  #   end
+  #   for_json.to_json
+  # end
 
   get "/distilleries/:id/bottles" do 
     distillery = Distillery.find(params[:id])
