@@ -16,13 +16,24 @@ class ApplicationController < Sinatra::Base
     bottle.to_json(include: { distillery: { include: :region } } )
   end
 
-  get "/all_bottles_by_region" do
+  # get "/regions/bottles" do
+  #   regions = Region.all
+  #   regions.to_json(only: [:name], include: { 
+  #     distilleries: { only: [:name], include: {
+  #     bottles: { only: [:name, :aged_in_years] }
+  #     } }
+  #   })
+  # end
+
+  get "/regions/bottles" do
     regions = Region.all
-    regions.to_json(only: [:name], include: { 
-      distilleries: { only: [:name], include: {
-      bottles: { only: [:name, :aged_in_years] }
-      } }
-    })
+    regions.to_json(include: { distilleries: { include: :bottles } })
+  end
+
+  # get bottles by distilleriesfrom specific region
+  get "/regions/:id/distilleries" do
+    region = Region.find(params[:id])
+    region.distilleries.to_json(include: :bottles )
   end
 
   # get "/all_bottles_by_region" do
