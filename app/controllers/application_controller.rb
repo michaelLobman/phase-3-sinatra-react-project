@@ -11,10 +11,19 @@ class ApplicationController < Sinatra::Base
     Bottle.all.order(:aged_in_years).to_json(only: [:name, :aged_in_years])    
   end
 
+  get "/bottles/oldest" do
+    Bottle.oldest.to_json(include: :distillery)
+  end
+
   get "/bottles/:id" do
     bottle = Bottle.find(params[:id])
     bottle.to_json(include: { distillery: { include: :region } } )
   end
+
+  # get oldest bottles
+
+
+
 
   # get "/regions/bottles" do
   #   regions = Region.all
@@ -30,11 +39,43 @@ class ApplicationController < Sinatra::Base
     regions.to_json(include: { distilleries: { include: :bottles } })
   end
 
-  # get bottles by distilleriesfrom specific region
+  # get bottles by distilleries from specific region
   get "/regions/:id/distilleries" do
     region = Region.find(params[:id])
-    region.distilleries.to_json(include: :bottles )
+    region.to_json(include: { distilleries: { include: :bottles } })
   end
+
+  # get distilleries with corresponding bottles
+
+  get "/distilleries" do
+    distilleries = Distillery.all
+    distilleries.to_json(include: :bottles)
+  end
+
+  # get specific distillery with corresponding bottles
+
+  get "/distilleries/oldest" do
+    Distillery.oldest.to_json
+  end
+
+  get "/distilleries/newest" do
+    Distillery.newest.to_json
+  end
+
+  get "/distilleries/oldest/bottles" do
+    Distillery.oldest.to_json(include: :bottles)
+  end
+
+  get "/distilleries/newest/bottles" do
+    Distilelry.newes.to_json(include: :bottles)
+  end
+
+  get "/distilleries/:id/bottles" do
+    distillery = Distillery.find(params[:id])
+    distillery.to_json(include: :bottles)
+  end
+
+  
 
   # get "/all_bottles_by_region" do
   #   regions = Region.all
