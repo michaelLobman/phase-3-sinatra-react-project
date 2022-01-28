@@ -40,9 +40,21 @@ class ApplicationController < Sinatra::Base
   end
 
   # get bottles by distilleries from specific region
-  get "/regions/:id/distilleries" do
+  get "/regions/:id/distilleries/bottles" do
     region = Region.find(params[:id])
     region.to_json(include: { distilleries: { include: :bottles } })
+  end
+
+  # region with most distilleries
+
+  get "/regions/most_distilleries" do
+    Region.most_distilleries.to_json(include: :distilleries)
+  end
+
+  # region with most distilleries with distilleries and bottles
+
+  get "/regions/most_distilleries/bottles" do
+    Region.most_distilleries.to_json(include: { distilleries: { include: :bottles } })
   end
 
   # get distilleries with corresponding bottles
@@ -123,20 +135,16 @@ class ApplicationController < Sinatra::Base
 
     bottle_name = titleize(params[:name])
     bottle_age = params[:age]
-    region = params[:region]
 
     distillery_name = titleize(params[:distillery])
     existing_distillery = Distillery.find_by(name: distillery_name)
-
-    unless existing_distillery
-      binding.pry
-    end
 
     new_bottle = Bottle.create(name: bottle_name, aged_in_years: bottle_age)
     new_bottle.distillery = existing_distillery
 
     new_bottle.to_json
   end
+
 end
 
 
