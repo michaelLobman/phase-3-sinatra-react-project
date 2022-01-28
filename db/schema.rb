@@ -15,20 +15,18 @@ ActiveRecord::Schema.define(version: 2022_01_24_214311) do
   create_table "bottles", force: :cascade do |t|
     t.string "name"
     t.integer "aged_in_years"
-    t.string "description"
-    t.boolean "in_production"
     t.integer "distillery_id"
   end
 
   create_table "distilleries", force: :cascade do |t|
     t.string "name"
     t.integer "year_established"
-    t.boolean "currently_open"
     t.integer "region_id"
   end
 
   create_table "regions", force: :cascade do |t|
     t.string "name"
+    t.string "img_url"
   end
 
 end

@@ -3,7 +3,6 @@ class CreateDistilleries < ActiveRecord::Migration[6.1]
     create_table :distilleries do |t|
       t.string :name
       t.integer :year_established
-      t.boolean :currently_open
       t.integer :region_id
     end
   end

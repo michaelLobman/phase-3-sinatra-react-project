@@ -74,13 +74,10 @@ class ApplicationController < Sinatra::Base
     region = params[:region]
     existing_region = Region.find_by(name: region)
 
-    binding.pry
-
     new_distillery = Distillery.create(name: name, year_established: year_established)
     new_distillery.region = existing_region
     new_distillery.save
 
-    binding.pry
 
     new_distillery.to_json
 
@@ -167,6 +164,8 @@ class ApplicationController < Sinatra::Base
 
     new_bottle = Bottle.create(name: bottle_name, aged_in_years: bottle_age)
     new_bottle.distillery = existing_distillery
+
+    new_bottle.save
 
     new_bottle.to_json
   end
