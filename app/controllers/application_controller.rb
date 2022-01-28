@@ -1,3 +1,5 @@
+require 'pry'
+
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
@@ -63,6 +65,30 @@ class ApplicationController < Sinatra::Base
     distilleries = Distillery.all
     distilleries.to_json(include: :bottles)
   end
+
+
+  post "/distilleries" do
+    name = params[:name]
+    year_established = params[:year]
+
+    region = params[:region]
+    existing_region = Region.find_by(name: region)
+
+    binding.pry
+
+    new_distillery = Distillery.create(name: name, year_established: year_established)
+    new_distillery.region = existing_region
+    new_distillery.save
+
+    binding.pry
+
+    new_distillery.to_json
+
+  end
+
+
+
+
 
   # get specific distillery with corresponding bottles
 
