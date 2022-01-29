@@ -173,9 +173,23 @@ class ApplicationController < Sinatra::Base
 
   patch "/bottles/:id" do
     bottle = Bottle.find(params[:id])
+    if !params[:name]
+      name = bottle.name
+    else 
+      name = params[:name]
+    end
+
+    if params[:age] == 0
+      age = nil
+    elsif !params[:age]
+      age = bottle.aged_in_years
+    else
+      age = params[:age]
+    end
+
     bottle.update(
-      name: params[:name],
-      aged_in_years: params[:age]
+      name: name,
+      aged_in_years: age
     )
     bottle.to_json
   end
