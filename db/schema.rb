@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_214311) do
   create_table "regions", force: :cascade do |t|
     t.string "name"
     t.string "img_url"
+    t.string "description"
   end
 
 end
