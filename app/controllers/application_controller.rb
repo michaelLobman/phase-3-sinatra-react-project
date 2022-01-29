@@ -22,6 +22,7 @@ class ApplicationController < Sinatra::Base
     bottle.to_json(include: { distillery: { include: :region } } )
   end
 
+
   # get oldest bottles
 
 
@@ -168,6 +169,15 @@ class ApplicationController < Sinatra::Base
     new_bottle.save
 
     new_bottle.to_json
+  end
+
+  patch "/bottles/:id" do
+    bottle = Bottle.find(params[:id])
+    bottle.update(
+      name: params[:name],
+      aged_in_years: params[:age]
+    )
+    bottle.to_json
   end
 
 end
