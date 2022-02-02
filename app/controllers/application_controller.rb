@@ -2,11 +2,12 @@ require 'pry'
 
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
+
+  #change to the all regoins distilleries bottles
   
   get "/" do
-    macallan = Distillery.find(1)
-    bottle_arr = macallan.bottles.map{|bottle| bottle.name }
-    bottle_arr.to_json
+    regions = Region.all
+    regions.to_json(include: { distilleries: { include: :bottles } })
   end
 
   get "/bottles" do
@@ -22,25 +23,20 @@ class ApplicationController < Sinatra::Base
     bottle.to_json(include: { distillery: { include: :region } } )
   end
 
+  delete "/bottles/:id" do
+    bottle = Bottle.find(params[:id])
+    bottle.destroy
+    bottle.to_json(include: { distillery: { include: :region } })
+  end
+
 
   # get oldest bottles
 
 
-
-
   # get "/regions/bottles" do
   #   regions = Region.all
-  #   regions.to_json(only: [:name], include: { 
-  #     distilleries: { only: [:name], include: {
-  #     bottles: { only: [:name, :aged_in_years] }
-  #     } }
-  #   })
+  #   regions.to_json(include: { distilleries: { include: :bottles } })
   # end
-
-  get "/regions/bottles" do
-    regions = Region.all
-    regions.to_json(include: { distilleries: { include: :bottles } })
-  end
 
   # get bottles by distilleries from specific region
   get "/regions/:id/distilleries/bottles" do
@@ -54,7 +50,7 @@ class ApplicationController < Sinatra::Base
     Region.most_distilleries.to_json(include: :distilleries)
   end
 
-  # region with most distilleries with distilleries and bottles
+  # region with most distilleries (include corresponding bottles)
 
   get "/regions/most_distilleries/bottles" do
     Region.most_distilleries.to_json(include: { distilleries: { include: :bottles } })
@@ -85,10 +81,6 @@ class ApplicationController < Sinatra::Base
   end
 
 
-
-
-
-  # get specific distillery with corresponding bottles
 
   get "/distilleries/oldest" do
     Distillery.oldest.to_json
