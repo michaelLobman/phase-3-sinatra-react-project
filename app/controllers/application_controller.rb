@@ -2,10 +2,8 @@ require 'pry'
 
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
-
-  #change to the all regoins distilleries bottles
   
-  get "/" do
+  get "/all" do
     regions = Region.all
     regions.to_json(include: { distilleries: { include: :bottles } })
   end
@@ -28,15 +26,6 @@ class ApplicationController < Sinatra::Base
     bottle.destroy
     bottle.to_json(include: { distillery: { include: :region } })
   end
-
-
-  # get oldest bottles
-
-
-  # get "/regions/bottles" do
-  #   regions = Region.all
-  #   regions.to_json(include: { distilleries: { include: :bottles } })
-  # end
 
   # get bottles by distilleries from specific region
   get "/regions/:id/distilleries/bottles" do
@@ -102,34 +91,6 @@ class ApplicationController < Sinatra::Base
     distillery = Distillery.find(params[:id])
     distillery.to_json(include: :bottles)
   end
-
-  
-
-  # get "/all_bottles_by_region" do
-  #   regions = Region.all
-
-  #   bottles_by_region = Region.all.each_with_object({}) do |region, hash|
-  #     distilleries = region.distilleries
-  #     hash[region.name] = distilleries.each_with_object({}) do |distillery, nested_hash|
-  #       nested_hash[distillery.name] = distillery.bottles.order(:aged_in_years).map{|bottle| bottle.name}
-  #     end
-  #   end
-
-  #   bottles_by_region.to_json
-
-  # end
-
-  # get "/all_bottles_by_region" do
-  #   regions = Region.all
-  #   for_json = regions.map do |region|
-  #     distilleries = region.distilleries
-  #     distilleries.map do |distillery|
-  #       hash["#{region}"]["#{distillery}"]
-  #       distillery.bottles.order(:aged_in_years).map{|bottle| bottle.name}
-  #     end
-  #   end
-  #   for_json.to_json
-  # end
 
   get "/distilleries/:id/bottles" do 
     distillery = Distillery.find(params[:id])
