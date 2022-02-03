@@ -51,7 +51,7 @@ Let's dive in.
 ### Get all distilleries and bottles from specific region
 #### Request:
 `GET /regions/:id/distilleries/bottles`
-#### Response:
+#### Response (excerpted):
 ```json
 {
     "id": 5,
@@ -70,18 +70,6 @@ Let's dive in.
                     "name": "12 Year Old Scotch Whisky",
                     "aged_in_years": 12,
                     "distillery_id": 5
-                },
-                {
-                    "id": 9,
-                    "name": "A’bunadh Scotch Whisky",
-                    "aged_in_years": null,
-                    "distillery_id": 5
-                },
-                {
-                    "id": 10,
-                    "name": "16 Year Old Scotch Whisky",
-                    "aged_in_years": 16,
-                    "distillery_id": 5
                 }
             ]
         },
@@ -96,44 +84,6 @@ Let's dive in.
                     "name": "Double Cask 12 Years Old",
                     "aged_in_years": 12,
                     "distillery_id": 6
-                },
-                {
-                    "id": 12,
-                    "name": "Double Cask Gold",
-                    "aged_in_years": null,
-                    "distillery_id": 6
-                },
-                {
-                    "id": 13,
-                    "name": "Double Cask 18 Years Old",
-                    "aged_in_years": 18,
-                    "distillery_id": 6
-                },
-                {
-                    "id": 14,
-                    "name": "Sherry Oak 12 Years Old",
-                    "aged_in_years": 12,
-                    "distillery_id": 6
-                },
-                {
-                    "id": 15,
-                    "name": "The Macallan Ruby",
-                    "aged_in_years": null,
-                    "distillery_id": 6
-                }
-            ]
-        },
-        {
-            "id": 8,
-            "name": "The Balvenie",
-            "year_established": 1892,
-            "region_id": 5,
-            "bottles": [
-                {
-                    "id": 19,
-                    "name": "The Balvenie Doublewood 12",
-                    "aged_in_years": 12,
-                    "distillery_id": 8
                 }
             ]
         }
@@ -175,7 +125,7 @@ Let's dive in.
 ### Get region with most distilleries and their corresponding bottles
 #### Request:
 `GET /regions.most_distilleries/bottles`
-#### Response:
+#### Response (excerpted):
 ```json 
 {
     "id": 5,
@@ -193,18 +143,6 @@ Let's dive in.
                     "id": 8,
                     "name": "12 Year Old Scotch Whisky",
                     "aged_in_years": 12,
-                    "distillery_id": 5
-                },
-                {
-                    "id": 9,
-                    "name": "A’bunadh Scotch Whisky",
-                    "aged_in_years": null,
-                    "distillery_id": 5
-                },
-                {
-                    "id": 10,
-                    "name": "16 Year Old Scotch Whisky",
-                    "aged_in_years": 16,
                     "distillery_id": 5
                 }
             ]
@@ -226,25 +164,7 @@ Let's dive in.
                     "name": "Double Cask Gold",
                     "aged_in_years": null,
                     "distillery_id": 6
-                },
-                {
-                    "id": 13,
-                    "name": "Double Cask 18 Years Old",
-                    "aged_in_years": 18,
-                    "distillery_id": 6
-                },
-                {
-                    "id": 14,
-                    "name": "Sherry Oak 12 Years Old",
-                    "aged_in_years": 12,
-                    "distillery_id": 6
-                },
-                {
-                    "id": 15,
-                    "name": "The Macallan Ruby",
-                    "aged_in_years": null,
-                    "distillery_id": 6
-                }
+                } 
             ]
         },
         {
