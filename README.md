@@ -11,7 +11,8 @@ Let's dive in.
 
 ## Usage
 
-### Get all scotches
+### Get All Scotches
+
 #### Request:
 ```
 GET /all
@@ -49,8 +50,11 @@ GET /all
     }
 ]
 ```
-## Region endpoints
-### Get all distilleries and bottles from specific region
+
+## Region Endpoints
+
+### Get Distilleries and Bottles from Specific Region
+
 #### Request:
 ```
 GET /regions/:id/distilleries/bottles
@@ -94,7 +98,8 @@ GET /regions/:id/distilleries/bottles
     ]
 }
 ```
-### Get region with most distilleries
+### Get Region with Most Distilleries
+
 #### Request:
 ```
 GET /regions/most_distilleries
@@ -128,7 +133,8 @@ GET /regions/most_distilleries
     ]
 }
 ```
-### Get region with most distilleries and their corresponding bottles
+### Get Region with Most Distilleries and Respective Bottles
+
 #### Request:
 ```
 GET /regions.most_distilleries/bottles
@@ -192,36 +198,16 @@ GET /regions.most_distilleries/bottles
     ]
 }
 ```
-### Add new distillery
-#### Request:
-```
-POST /distilleries
-```
-Raw JSON body:
-```json
-{
-  "name": "Example Name",
-  "year": 1900,
-  "region": "Speyside"
-}
-```
-#### Response:
-```json
-{
-  "id": 20,
-  "name": "Example Name",
-  "year": 1900,
-  "region_id": 5
-}
-```
+
 ## Bottle Endpoints
 
-### Get all bottles by ascending age
-#### Request 
+### Get All Bottles By Ascending Age
+
+#### Request:
 ```
 GET /bottles/age
 ```
-#### Response (excerpted)
+#### Response (excerpted):
 ```json
 [
     {
@@ -251,12 +237,13 @@ GET /bottles/age
      
 ]
 ```
-### Get oldest bottles
-#### Request 
+### Get Oldest Bottles
+
+#### Request:
 ```
 GET /bottles/oldest
 ```
-#### Response
+#### Response:
 ```json
 [
     {
@@ -285,7 +272,7 @@ GET /bottles/oldest
     }
 ]
 ```
-### Get a specific bottle by ID
+### Get a Specific Bottle by ID
 #### Request 
 ```
 GET /bottles/:id
@@ -311,12 +298,13 @@ GET /bottles/:id
     }
 }
 ```
-### Delete specific bottle
-#### Request
+### Delete Specific Bottle
+
+#### Request:
 ```
 DELETE /bottles/:id
 ```
-#### Response
+#### Response:
 ```json
 {
     "id": 1,
@@ -337,7 +325,8 @@ DELETE /bottles/:id
     }
 }
 ```
-### Add new bottle
+### Add New Bottle
+
 #### Request:
 ```
 POST /bottles
@@ -360,82 +349,232 @@ Raw JSON body:
 }
 ```
 
+## Distillery Endpoints
 
-  patch "/bottles/:id" do
-    bottle = Bottle.find(params[:id])
-    if !params[:name]
-      name = bottle.name
-    else 
-      name = params[:name]
-    end
+### Get All Distilleries
 
-    if params[:age] == 0
-      age = nil
-    elsif !params[:age]
-      age = bottle.aged_in_years
-    else
-      age = params[:age]
-    end
+#### Request:
+```
+GET /distilleries
+```
+#### Response (excerpted):
+```json
+[
+    {
+        "id": 1,
+        "name": "Glen Scotia",
+        "year_established": 1832,
+        "region_id": 1
+    },
+    {
+        "id": 2,
+        "name": "Oban",
+        "year_established": 1794,
+        "region_id": 2
+    },
+    {
+        "id": 3,
+        "name": "Lagavulin",
+        "year_established": 1816,
+        "region_id": 3
+    }
+]
+```
 
-    bottle.update(
-      name: name,
-      aged_in_years: age
-    )
-    bottle.to_json
-  end
+### Get All Distilleries with Corresponding Bottles
 
+#### Request:
+```
+GET /distilleries/bottles
+```
+#### Response (excerpted):
+```json
+[
+    {
+        "id": 1,
+        "name": "Glen Scotia",
+        "year_established": 1832,
+        "region_id": 1,
+        "bottles": [
+            {
+                "id": 1,
+                "name": "Victoriana",
+                "aged_in_years": null,
+                "distillery_id": 1
+            },
+            {
+                "id": 2,
+                "name": "Glen Scotia 15 Year Old Whisky",
+                "aged_in_years": 15,
+                "distillery_id": 1
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Oban",
+        "year_established": 1794,
+        "region_id": 2,
+        "bottles": [
+            {
+                "id": 3,
+                "name": "Oban 14 Years Old",
+                "aged_in_years": 14,
+                "distillery_id": 2
+            },
+            {
+                "id": 4,
+                "name": "Oban 18 Years Old",
+                "aged_in_years": 18,
+                "distillery_id": 2
+            }
+        ]
+    }
+]
+```
 
+### Add New Distillery
 
+#### Request:
+```
+POST /distilleries
+```
+Raw JSON body:
+```json
+{
+  "name": "Example Name",
+  "year": 1900,
+  "region": "Speyside"
+}
+```
+#### Response:
+```json
+{
+  "id": 20,
+  "name": "Example Name",
+  "year": 1900,
+  "region_id": 5
+}
+```
 
-  get "/distilleries" do
-    distilleries = Distillery.all
-    distilleries.to_json(include: :bottles)
-  end
+### Get Oldest Distillery
 
+#### Request:
+```
+GET /distilleries/oldest
+```
+#### Response:
+```json
+{
+    "id": 2,
+    "name": "Oban",
+    "year_established": 1794,
+    "region_id": 2
+}
+```
 
-  post "/distilleries" do
-    name = params[:name]
-    year_established = params[:year]
+### Get Oldest Distillery with Respective Bottles
 
-    region = params[:region]
-    existing_region = Region.find_by(name: region)
+#### Request:
+```
+GET /distilleries/oldest/bottles
+```
+#### Response:
+```json
+{
+    "id": 2,
+    "name": "Oban",
+    "year_established": 1794,
+    "region_id": 2,
+    "bottles": [
+        {
+            "id": 3,
+            "name": "Oban 14 Years Old",
+            "aged_in_years": 14,
+            "distillery_id": 2
+        },
+        {
+            "id": 4,
+            "name": "Oban 18 Years Old",
+            "aged_in_years": 18,
+            "distillery_id": 2
+        }
+    ]
+}
+```
 
-    new_distillery = Distillery.create(name: name, year_established: year_established)
-    new_distillery.region = existing_region
-    new_distillery.save
+### Get Newest Distillery
 
+#### Request:
+```
+GET /distilleries/newest
+```
+#### Response:
+```json
+{
+    "id": 8,
+    "name": "The Balvenie",
+    "year_established": 1892,
+    "region_id": 5
+}
+```
 
-    new_distillery.to_json
+### Get Newest Distillery with Respective Bottles
 
-  end
+#### Request:
+```
+GET /distilleries/newest/bottles
+```
+#### Response:
+```json
+{
+    "id": 8,
+    "name": "The Balvenie",
+    "year_established": 1892,
+    "region_id": 5,
+    "bottles": [
+        {
+            "id": 19,
+            "name": "The Balvenie Doublewood 12",
+            "aged_in_years": 12,
+            "distillery_id": 8
+        }
+    ]
+}
+```
 
+### Get Specific Distillery with Respective Bottles
 
+#### Request:
+```
+GET /distilleries/:id
+```
+#### Response:
+```json
+{
+    "id": 3,
+    "name": "Lagavulin",
+    "year_established": 1816,
+    "region_id": 3,
+    "bottles": [
+        {
+            "id": 5,
+            "name": "Lagavulin 16 Year Old",
+            "aged_in_years": 16,
+            "distillery_id": 3
+        },
+        {
+            "id": 6,
+            "name": "Lagavulin 8 Year Old",
+            "aged_in_years": 8,
+            "distillery_id": 3
+        }
+    ]
+}
+```
 
-  get "/distilleries/oldest" do
-    Distillery.oldest.to_json
-  end
+## Support 
 
-  get "/distilleries/newest" do
-    Distillery.newest.to_json
-  end
+The API will be continuously updated as I find time to add additional endpoints and build out the database.
 
-  get "/distilleries/oldest/bottles" do
-    Distillery.oldest.to_json(include: :bottles)
-  end
-
-  get "/distilleries/newest/bottles" do
-    Distilelry.newes.to_json(include: :bottles)
-  end
-
-  get "/distilleries/:id/bottles" do
-    distillery = Distillery.find(params[:id])
-    distillery.to_json(include: :bottles)
-  end
-
-  get "/distilleries/:id/bottles" do 
-    distillery = Distillery.find(params[:id])
-    distillery.bottles.order(:aged_in_years).to_json(only: [:name, :aged_in_years])
-  end
-
- end
-
+If you have any suggestions, questions, or want to talk whisky, email me at michael.lobman@gmail.com.
