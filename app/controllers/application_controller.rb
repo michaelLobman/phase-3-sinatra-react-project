@@ -8,8 +8,8 @@ class ApplicationController < Sinatra::Base
     regions.to_json(include: { distilleries: { include: :bottles } })
   end
 
-  get "/bottles" do
-    Bottle.all.order(:aged_in_years).to_json(only: [:name, :aged_in_years])    
+  get "/bottles/age" do
+    Bottle.all.order(:aged_in_years).to_json
   end
 
   get "/bottles/oldest" do
